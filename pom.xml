@@ -34,6 +34,8 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
+          <!-- Exclude JUnit 4 support as we use only JUnit5 -->
+          <!-- https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing -->
           <groupId>org.junit.vintage</groupId>
           <artifactId>junit-vintage-engine</artifactId>
         </exclusion>
