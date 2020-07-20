@@ -10,17 +10,24 @@ import java.time.LocalDate;
 
 @Entity
 public class Clipping {
+
+  /** The clipping object primary key automatically generated. */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
+  /** The clipping matter, as a SQL largest string type (required). */
   @Lob
   @Column(nullable = false)
   private String clippingMatter;
 
-  // Reason for usage of LocalDate:
-  // https://stackoverflow.com/questions/2305973/java-util-date-vs-java-sql-date
-  // https://stackoverflow.com/questions/28276126/java-util-date-is-generating-a-wrong-date
+  /**
+   * The clipping date as a SQL Date object (required).
+   *
+   * @see <a href="https://stackoverflow.com/questions/2305973">java.util.Date vs java.sql.Date</a>
+   * @see <a href="https://stackoverflow.com/questions/28276126/">java.util.Date is generating a
+   *     wrong date?</a>
+   */
   @Column(nullable = false)
   private LocalDate clippingDate;
 

@@ -7,10 +7,34 @@ Originally based on the tutorial [*How Spring Boot Can Level Up your Spring Appl
 
 ## Components
 
+As database,
+it uses a H2 in-memory database configured by **`src.main.java.com.appointment.publishing.config.PersistenceConfig`**.
+
+
+### src.main.java.com.appointment.publishing.controller.GlobalExceptionHandler
+
+Is a centralized/single place to handle all custom exceptions handling for this application.
+
+
 ### src.main.java.com.appointment.publishing.model
 
 Those classes are used to infer how the SQL database tables and columns are created
 for each object type.
+
+
+### src.main.java.com.appointment.publishing.config
+
+Hold all custom configuration classes for this application.
+They are automatically loaded.
+
+
+### src.main.java.com.appointment.publishing.repository
+
+Central repository marker interfaces.
+Captures the domain type to manage as well as the domain type's id.
+Domain repositories extending this interface can selectively expose
+CRUD methods by simply declaring methods of the same signature as those declared in CrudRepository.
+
 
 ### src.main.resources.application.properties
 
@@ -31,9 +55,10 @@ go to the menu **`File -> New -> Project from Existing Sources`** and select the
 
 After starting the project, the API will be available on the URL: `http://127.0.0.1:8081/appointments/<API_NAME>`
 
+
 ### Restful API
 
-1. **`clipping`** is a *POST* and *GET* endpoint. See **`com.appointment.publishing.controller.ClippingController`** for details.
+1. **`clipping`** is a *POST* and *GET* endpoint. See **`com.appointment.publishing.controller.ClippingController`** and **`com.appointment.publishing.model.Clipping`** for the parameter details.
 
 
 ## Contributing
