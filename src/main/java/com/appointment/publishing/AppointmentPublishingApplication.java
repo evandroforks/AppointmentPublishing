@@ -10,12 +10,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class AppointmentPublishingApplication extends SpringBootServletInitializer {
 
   @Autowired private ObjectMapper objectMapper;
 
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    SpringApplication.run(AppointmentPublishingApplication.class, args);
   }
 
   @PostConstruct

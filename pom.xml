@@ -85,7 +85,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>com.appointment.publishing.Application</mainClass>
+          <mainClass>com.appointment.publishing.AppointmentPublishingApplication</mainClass>
         </configuration>
       </plugin>
     </plugins>

@@ -1,6 +1,6 @@
 package com.appointment.publishing.test;
 
-import com.appointment.publishing.Application;
+import com.appointment.publishing.AppointmentPublishingApplication;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = AppointmentPublishingApplication.class)
 @WebAppConfiguration
 @Transactional // https://stackoverflow.com/questions/51036215/spring-h2-test-db-does-not-reset-before-each-test
 public class ClippingControllerTest {
