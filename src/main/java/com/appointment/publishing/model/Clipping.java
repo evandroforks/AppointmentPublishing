@@ -15,6 +15,7 @@ public class Clipping {
   // Reason for usage of LocalDate:
   // https://stackoverflow.com/questions/2305973/java-util-date-vs-java-sql-date
   // https://stackoverflow.com/questions/28276126/java-util-date-is-generating-a-wrong-date
+  @Column(nullable = false)
   private LocalDate clippingDate;
 
   public long getId() {
