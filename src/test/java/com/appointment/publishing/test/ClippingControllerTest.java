@@ -1,6 +1,7 @@
 package com.appointment.publishing.test;
 
 import com.appointment.publishing.Application;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,7 +41,11 @@ public class ClippingControllerTest {
 
   @Test
   public void whenCreateClipping_thenOk() throws Exception {
-    String clippingJson = "{\"clippingDate\":\"2020-06-22\"}";
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-22")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .toString();
 
     this.mockMvc
         .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
@@ -51,6 +56,19 @@ public class ClippingControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")));
+        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")));
+  }
+
+  @Test
+  public void whenCreateClipping_thenFailure() throws Exception {
+    String clippingJson =
+        new JSONObject().put("clippingMatter", "<br/>RECLAMANTE FULANO").toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.message", is("Missing required property 'clippingDate'")));
   }
 }
