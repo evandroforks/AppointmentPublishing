@@ -44,6 +44,9 @@ public class Clipping {
    */
   private ClassificationType classificationType;
 
+  /** The clipping classified date as a SQL Date object (optional). */
+  private LocalDate classifiedDate;
+
   public long getId() {
     return id;
   }
@@ -74,5 +77,13 @@ public class Clipping {
 
   public void setClassificationType(ClassificationType classificationType) {
     this.classificationType = classificationType;
+  }
+
+  public LocalDate getClassifiedDate() {
+    return classifiedDate;
+  }
+
+  public void setClassifiedDate(LocalDate classifiedDate) {
+    this.classifiedDate = classifiedDate;
   }
 }
