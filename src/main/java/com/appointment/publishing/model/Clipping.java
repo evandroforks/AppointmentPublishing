@@ -54,6 +54,9 @@ public class Clipping {
   /** The clipping important flag as a SQL Boolean type (optional). */
   private boolean important;
 
+  /** The clipping viewed flag as a SQL Boolean type (optional). */
+  private boolean viewed;
+
   public long getId() {
     return id;
   }
@@ -108,5 +111,13 @@ public class Clipping {
 
   public void setImportant(boolean important) {
     this.important = important;
+  }
+
+  public boolean isViewed() {
+    return viewed;
+  }
+
+  public void setViewed(boolean viewed) {
+    this.viewed = viewed;
   }
 }

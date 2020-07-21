@@ -198,4 +198,27 @@ public class ClippingControllerTest {
         .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
         .andExpect(jsonPath("$[0].important", is(true)));
   }
+
+  @Test
+  public void whenCreateClippingWithViewedFlag_thenOk() throws Exception {
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-22")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .put("viewed", true)
+            .toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$[0].viewed", is(true)));
+  }
 }
