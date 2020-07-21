@@ -51,6 +51,9 @@ public class Clipping {
   /** The clipping classified date as a SQL Time type (optional). */
   private LocalTime classifiedTime;
 
+  /** The clipping important flag as a SQL Boolean type (optional). */
+  private boolean important;
+
   public long getId() {
     return id;
   }
@@ -97,5 +100,13 @@ public class Clipping {
 
   public void setClassifiedTime(LocalTime classifiedTime) {
     this.classifiedTime = classifiedTime;
+  }
+
+  public boolean isImportant() {
+    return important;
+  }
+
+  public void setImportant(boolean important) {
+    this.important = important;
   }
 }
