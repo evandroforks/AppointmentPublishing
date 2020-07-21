@@ -23,13 +23,13 @@ public class Clipping {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  /** The clipping matter, as a SQL largest string type (required). */
+  /** The clipping matter, as a SQL largest String type (required). */
   @Lob
   @Column(nullable = false)
   private String clippingMatter;
 
   /**
-   * The clipping date as a SQL Date object (required).
+   * The clipping date as a SQL Date type (required).
    *
    * @see <a href="https://stackoverflow.com/questions/2305973">java.util.Date vs java.sql.Date</a>
    * @see <a href="https://stackoverflow.com/questions/28276126/">java.util.Date is generating a
@@ -39,16 +39,16 @@ public class Clipping {
   private LocalDate clippingDate;
 
   /**
-   * The clipping classification type, as a SQL enum type (optional).
+   * The clipping classification type, as a SQL int type (optional).
    *
    * @see ClassificationType for possible values
    */
   private ClassificationType classificationType;
 
-  /** The clipping classified date as a SQL Date object (optional). */
+  /** The clipping classified date as a SQL Date type (optional). */
   private LocalDate classifiedDate;
 
-  /** The clipping classified date as a SQL Time object (optional). */
+  /** The clipping classified date as a SQL Time type (optional). */
   private LocalTime classifiedTime;
 
   public long getId() {
