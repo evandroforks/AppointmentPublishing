@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /** Values used for the Clipping Rest API requests. */
 enum ClassificationType {
@@ -47,6 +48,9 @@ public class Clipping {
   /** The clipping classified date as a SQL Date object (optional). */
   private LocalDate classifiedDate;
 
+  /** The clipping classified date as a SQL Time object (optional). */
+  private LocalTime classifiedTime;
+
   public long getId() {
     return id;
   }
@@ -85,5 +89,13 @@ public class Clipping {
 
   public void setClassifiedDate(LocalDate classifiedDate) {
     this.classifiedDate = classifiedDate;
+  }
+
+  public LocalTime getClassifiedTime() {
+    return classifiedTime;
+  }
+
+  public void setClassifiedTime(LocalTime classifiedTime) {
+    this.classifiedTime = classifiedTime;
   }
 }
