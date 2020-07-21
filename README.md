@@ -42,6 +42,13 @@ Controls the debug and runtime information about the system.
 Use it to debug SQL database and access an SQL command line.
 
 
+### src.test.java.com.appointment.publishing.test.ClippingControllerTest
+
+Uncomment **`.alwaysDo(MockMvcResultHandlers.print())`** to debug the **`mockMvc`** tests,
+forcing it print most things to the console when running the tests.
+See also [Spring MVC controller Test - print the result JSON String](https://stackoverflow.com/questions/21495296/).
+
+
 ## Usage
 
 To run this project, you need installed:

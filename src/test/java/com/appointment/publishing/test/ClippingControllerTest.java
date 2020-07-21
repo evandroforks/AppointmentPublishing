@@ -10,10 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,7 +38,11 @@ public class ClippingControllerTest {
 
   @BeforeEach
   public void setup() throws Exception {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    this.mockMvc =
+        MockMvcBuilders.webAppContextSetup(webApplicationContext)
+            // https://stackoverflow.com/questions/21495296/spring-mvc-controller-test-print-the-result-json-string
+            // .alwaysDo(MockMvcResultHandlers.print())
+            .build();
   }
 
   @Test
@@ -71,6 +77,34 @@ public class ClippingControllerTest {
         .andExpect(status().isBadRequest())
         .andExpect(content().contentType(CONTENT_TYPE))
         .andExpect(jsonPath("$.message", is("Missing required property 'clippingDate'")));
+  }
+
+  @Test
+  public void whenCreateClippingWithUnknownParameters() throws Exception {
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-22")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .put("classificationUnknown", "NonExistent")
+            .toString();
+
+    ResultActions result =
+        this.mockMvc
+            .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+            .andExpect(status().isBadRequest());
+
+    /**
+     * `jsonPath()` should be used instead of `status()` but mockMvc is bugged because it eats the
+     * response headers and the response body by putting the main message on the `errorMessage`
+     * variable inside `mvcResult` from the MockMvc.class and ignoring/removing the Content Type =
+     * application/json.
+     *
+     * @see <a href="https://stackoverflow.com/questions/25288930">mockMvc - Test Error Message</a>
+     */
+    // result.andExpect(
+    //     jsonPath("$.message", is("Unknown request property 'classificationUnknown'")));
+    result.andExpect(
+        status().reason(containsString("Unknown request property 'classificationUnknown'")));
   }
 
   @Test
