@@ -8,6 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import java.time.LocalDate;
 
+/** Values used for the Clipping Rest API requests. */
+enum ClassificationType {
+  HEARING,
+  DEADLINE
+}
+
 @Entity
 public class Clipping {
 
@@ -31,6 +37,13 @@ public class Clipping {
   @Column(nullable = false)
   private LocalDate clippingDate;
 
+  /**
+   * The clipping classification type, as a SQL enum type (optional).
+   *
+   * @see ClassificationType for possible values
+   */
+  private ClassificationType classificationType;
+
   public long getId() {
     return id;
   }
@@ -53,5 +66,13 @@ public class Clipping {
 
   public void setClippingMatter(String clippingMatter) {
     this.clippingMatter = clippingMatter;
+  }
+
+  public ClassificationType getClassificationType() {
+    return classificationType;
+  }
+
+  public void setClassificationType(ClassificationType classificationType) {
+    this.classificationType = classificationType;
   }
 }

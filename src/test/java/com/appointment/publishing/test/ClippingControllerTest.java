@@ -57,7 +57,8 @@ public class ClippingControllerTest {
         .andExpect(content().contentType(CONTENT_TYPE))
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")));
+        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$[0].classificationType").doesNotExist());
   }
 
   @Test
@@ -70,5 +71,28 @@ public class ClippingControllerTest {
         .andExpect(status().isBadRequest())
         .andExpect(content().contentType(CONTENT_TYPE))
         .andExpect(jsonPath("$.message", is("Missing required property 'clippingDate'")));
+  }
+
+  @Test
+  public void whenCreateClippingWithClassification_thenOk() throws Exception {
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-22")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .put("classificationType", "HEARING")
+            .toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$[0].classificationType", is("HEARING")));
   }
 }
