@@ -80,6 +80,15 @@ the technique of [*semantic line break*](http://translate.google.com.br/translat
 will be used.
 
 
+### TODO
+
+1. Create a test and ensure that when Jackson fails to parse an input value as **`classifiedTime: "10][:00"`**,
+   the server returns `BAD_REQUEST` and a body explaining the problem.
+   To implement this,
+   just continue the implementation on **`src.main.java.com.appointment.publishing.config.JacksonUnknownPropertyConfig`**
+   adding the corresponding handler for bad/invalid parsing.
+
+
 ## License
 
 See [*CONTRIBUTORS#License Cause*](CONTRIBUTORS).
