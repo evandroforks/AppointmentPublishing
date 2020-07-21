@@ -61,10 +61,10 @@ public class ClippingControllerTest {
         .perform(get("/clipping"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
-        .andExpect(jsonPath("$[0].classificationType").doesNotExist());
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$.content[0].classificationType").doesNotExist());
   }
 
   @Test
@@ -124,10 +124,10 @@ public class ClippingControllerTest {
         .perform(get("/clipping"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
-        .andExpect(jsonPath("$[0].classificationType", is("HEARING")));
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$.content[0].classificationType", is("HEARING")));
   }
 
   @Test
@@ -147,10 +147,10 @@ public class ClippingControllerTest {
         .perform(get("/clipping"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
-        .andExpect(jsonPath("$[0].classifiedDate", is("2020-06-25")));
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$.content[0].classifiedDate", is("2020-06-25")));
   }
 
   @Test
@@ -170,10 +170,10 @@ public class ClippingControllerTest {
         .perform(get("/clipping"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
-        .andExpect(jsonPath("$[0].classifiedTime", is("10:00:00")));
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$.content[0].classifiedTime", is("10:00:00")));
   }
 
   @Test
@@ -193,10 +193,10 @@ public class ClippingControllerTest {
         .perform(get("/clipping"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
-        .andExpect(jsonPath("$[0].important", is(true)));
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$.content[0].important", is(true)));
   }
 
   @Test
@@ -216,9 +216,67 @@ public class ClippingControllerTest {
         .perform(get("/clipping"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
-        .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].clippingDate", is("2020-06-22")))
-        .andExpect(jsonPath("$[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
-        .andExpect(jsonPath("$[0].viewed", is(true)));
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
+        .andExpect(jsonPath("$.content[0].viewed", is(true)));
+  }
+
+  public void createClippingSamplePages() throws Exception {
+    String clippingJson13 =
+        new JSONObject()
+            .put("clippingDate", "2020-06-13")
+            .put("clippingMatter", "<br/>RECLAMANTE Dia 13")
+            .toString();
+
+    String clippingJson14 =
+        new JSONObject()
+            .put("clippingDate", "2020-06-14")
+            .put("clippingMatter", "<br/>RECLAMANTE Dia 14")
+            .toString();
+
+    String clippingJson15 =
+        new JSONObject()
+            .put("clippingDate", "2020-06-15")
+            .put("clippingMatter", "<br/>RECLAMANTE Dia 15")
+            .toString();
+
+    String clippingJson16 =
+        new JSONObject()
+            .put("clippingDate", "2020-06-16")
+            .put("clippingMatter", "<br/>RECLAMANTE Dia 16")
+            .toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson13))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson14))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson15))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson16))
+        .andExpect(status().isCreated());
+  }
+
+  @Test
+  public void whenCreateClippingWithPagination_thenOk() throws Exception {
+    createClippingSamplePages();
+
+    this.mockMvc
+        .perform(get("/clipping?page=2&size=1"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-15")))
+        .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE Dia 15")))
+        .andExpect(jsonPath("$.number", is(2)))
+        .andExpect(jsonPath("$.totalPages", is(4)))
+        .andExpect(jsonPath("$.totalElements", is(4)));
   }
 }
