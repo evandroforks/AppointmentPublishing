@@ -6,10 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @RestController
 public class ClippingController {
@@ -55,5 +59,20 @@ public class ClippingController {
   @GetMapping("/clipping")
   public Page<Clipping> getClipping(Pageable pageable) {
     return clippingRepository.findAll(pageable);
+  }
+
+  /**
+   * Return a clipping item from the database given its primary key.
+   *
+   * @throws ResponseStatusException if the item was not found.
+   */
+  @GetMapping("/clipping/{id}")
+  public Clipping getClippingItem(@PathVariable("id") Long id) {
+    Optional<Clipping> item = clippingRepository.findById(id);
+    if (item.isPresent()) {
+      return item.get();
+    }
+    final String missing = String.format("The item with 'id=%s' does not exit!", id);
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
   }
 }

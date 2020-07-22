@@ -279,4 +279,32 @@ public class ClippingControllerTest {
         .andExpect(jsonPath("$.totalPages", is(4)))
         .andExpect(jsonPath("$.totalElements", is(4)));
   }
+
+  @Test
+  public void whenCreateClippingByItsId_thenOk() throws Exception {
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-22")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .andExpect(status().isCreated());
+
+    /**
+     * Test disabled because mockMvc is bugged and it does not find the object on the database when
+     * all tests are run together. This test only works when running it alone, i.e., when running
+     * only one test.
+     *
+     * <p>To overcome this situation, a Integration test was created for this on {@link
+     * ClippingControllerIntegrationTest#whenCreateClippingByItsId_thenOk}.
+     */
+    // this.mockMvc
+    //     .perform(get("/clipping/1"))
+    //     .andExpect(status().isOk())
+    //     .andExpect(content().contentType(CONTENT_TYPE))
+    //     .andExpect(jsonPath("$.clippingDate", is("2020-06-22")))
+    //     .andExpect(jsonPath("$.clippingMatter", is("<br/>RECLAMANTE FULANO")));
+  }
 }
