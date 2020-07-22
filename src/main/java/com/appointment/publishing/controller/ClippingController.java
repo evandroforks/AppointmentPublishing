@@ -1,7 +1,7 @@
 package com.appointment.publishing.controller;
 
 import com.appointment.publishing.model.Clipping;
-import com.appointment.publishing.repository.ClippingRepository;
+import com.appointment.publishing.service.ClippingService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,10 +21,10 @@ import java.util.Optional;
 @RestController
 public class ClippingController {
 
-  private ClippingRepository clippingRepository;
+  private ClippingService clippingService;
 
-  public ClippingController(ClippingRepository clippingRepository) {
-    this.clippingRepository = clippingRepository;
+  public ClippingController(ClippingService clippingService) {
+    this.clippingService = clippingService;
   }
 
   /**
@@ -43,7 +43,7 @@ public class ClippingController {
   @PostMapping("/clipping")
   @ResponseStatus(HttpStatus.CREATED)
   public void addClipping(@RequestBody Clipping clipping) {
-    clippingRepository.save(clipping);
+    clippingService.save(clipping);
   }
 
   /**
@@ -68,7 +68,7 @@ public class ClippingController {
   @PatchMapping("/clipping/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void updateClipping(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
-    Optional<Clipping> item = clippingRepository.findById(id);
+    Optional<Clipping> item = clippingService.findById(id);
 
     if (!item.isPresent()) {
       final String missing = String.format("The item with 'id=%s' is not existent!", id);
@@ -102,7 +102,7 @@ public class ClippingController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
     }
     clipping.setViewed((boolean) viewed);
-    clippingRepository.save(clipping);
+    clippingService.save(clipping);
   }
 
   /**
@@ -121,7 +121,7 @@ public class ClippingController {
    */
   @GetMapping("/clipping")
   public Page<Clipping> getClipping(Pageable pageable) {
-    return clippingRepository.findAll(pageable);
+    return clippingService.findAll(pageable);
   }
 
   /**
@@ -131,7 +131,7 @@ public class ClippingController {
    */
   @GetMapping("/clipping/{id}")
   public Clipping getClippingItem(@PathVariable("id") Long id) {
-    Optional<Clipping> item = clippingRepository.findById(id);
+    Optional<Clipping> item = clippingService.findById(id);
     if (item.isPresent()) {
       return item.get();
     }
@@ -151,8 +151,8 @@ public class ClippingController {
    */
   @DeleteMapping("/clipping")
   public void deleteClipping(Pageable pageable) {
-    Page<Clipping> all = clippingRepository.findAll(pageable);
-    clippingRepository.deleteAll(all);
+    Page<Clipping> all = clippingService.findAll(pageable);
+    clippingService.deleteAll(all);
   }
 
   /**
@@ -161,7 +161,7 @@ public class ClippingController {
    */
   @DeleteMapping("/clipping/all")
   public void deleteClipping() {
-    clippingRepository.deleteAll();
+    clippingService.deleteAll();
   }
 
   /**
@@ -172,11 +172,11 @@ public class ClippingController {
    */
   @DeleteMapping("/clipping/{id}")
   public void deleteClippingItem(@PathVariable("id") Long id) {
-    Optional<Clipping> item = clippingRepository.findById(id);
+    Optional<Clipping> item = clippingService.findById(id);
     if (!item.isPresent()) {
       final String missing = String.format("The item with 'id=%s' does not exit!", id);
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
     }
-    clippingRepository.delete(item.get());
+    clippingService.delete(item.get());
   }
 }
