@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -429,5 +430,40 @@ public class ClippingControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE))
         .andExpect(jsonPath("$.content", hasSize(1)));
+  }
+
+  @Test
+  public void whenDeletingClipping_thenOkAndFailure() throws Exception {
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-12")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(1)));
+
+    Long id = getId();
+    String errorMessage = String.format("The item with 'id=%s' does not exit!", id);
+
+    this.mockMvc.perform(delete("/clipping/" + id)).andExpect(status().isOk());
+
+    this.mockMvc
+        .perform(get("/clipping/" + id))
+        .andExpect(status().isBadRequest())
+        .andExpect(status().reason(containsString(errorMessage)));
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(0)));
   }
 }

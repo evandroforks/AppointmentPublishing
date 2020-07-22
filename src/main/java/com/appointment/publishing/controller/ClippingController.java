@@ -5,6 +5,7 @@ import com.appointment.publishing.repository.ClippingRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -135,5 +136,21 @@ public class ClippingController {
     }
     final String missing = String.format("The item with 'id=%s' does not exit!", id);
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
+  }
+
+  /**
+   * In a {@code DELETE} request as {@code /clipping/1}, delete the clipping item {@code 1} from the
+   * database given {@code 1} its its primary key.
+   *
+   * @throws ResponseStatusException if the item was not found.
+   */
+  @DeleteMapping("/clipping/{id}")
+  public void deleteClippingItem(@PathVariable("id") Long id) {
+    Optional<Clipping> item = clippingRepository.findById(id);
+    if (!item.isPresent()) {
+      final String missing = String.format("The item with 'id=%s' does not exit!", id);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
+    }
+    clippingRepository.delete(item.get());
   }
 }
