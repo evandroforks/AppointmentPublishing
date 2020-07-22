@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -306,5 +307,33 @@ public class ClippingControllerTest {
     //     .andExpect(content().contentType(CONTENT_TYPE))
     //     .andExpect(jsonPath("$.clippingDate", is("2020-06-22")))
     //     .andExpect(jsonPath("$.clippingMatter", is("<br/>RECLAMANTE FULANO")));
+  }
+
+  @Test
+  public void whenUpdatingClipping_thenOK() throws Exception {
+    String clippingJson =
+        new JSONObject()
+            .put("clippingDate", "2020-06-22")
+            .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+            .put("viewed", false)
+            .toString();
+
+    String updateJson = new JSONObject().put("viewed", true).toString();
+
+    this.mockMvc
+        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(patch("/clipping/1").contentType(CONTENT_TYPE).content(updateJson))
+        .andExpect(status().isOk());
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
+        .andExpect(jsonPath("$.content[0].viewed", is(true)));
   }
 }

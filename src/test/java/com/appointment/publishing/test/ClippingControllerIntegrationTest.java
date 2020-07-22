@@ -13,9 +13,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,6 +47,9 @@ public class ClippingControllerIntegrationTest {
   public void setup() {
     url = "http://127.0.0.1:" + port;
     mapper = new ObjectMapper();
+
+    // https://stackoverflow.com/questions/29447382/resttemplate-patch-request
+    restTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
   }
 
   private ResponseEntity<String> doPost(String path, JSONObject body) {
@@ -56,6 +61,15 @@ public class ClippingControllerIntegrationTest {
 
   private ResponseEntity<String> doGet(String path) {
     return restTemplate.getForEntity(url + path, String.class);
+  }
+
+  private ResponseEntity<String> doPatch(String path, JSONObject body) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    HttpEntity<String> entity = new HttpEntity<String>(body.toString(), headers);
+
+    // https://stackoverflow.com/questions/55323510/why-there-is-no-patchforentity-method-just-like-postforentity-in-resttemplate
+    return restTemplate.exchange(url + path, HttpMethod.PATCH, entity, String.class);
   }
 
   /** @see ClippingControllerTest#whenCreateClippingByItsId_thenOk for the original test. */
@@ -74,5 +88,46 @@ public class ClippingControllerIntegrationTest {
 
     JsonNode responseJson = mapper.readTree(response.getBody());
     assertThat(responseJson.get("clippingDate").textValue()).isEqualTo("2020-06-12");
+  }
+
+  @Test
+  public void whenUpdatingClipping_thenNotSupported() throws Exception {
+    ResponseEntity<String> query =
+        doPost(
+            "/clipping",
+            new JSONObject()
+                .put("clippingDate", "2020-07-12")
+                .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+                .put("viewed", false));
+    assertThat(query.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+    ResponseEntity<String> response =
+        doPatch("/clipping/1", new JSONObject().put("important", "true"));
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_IMPLEMENTED);
+
+    JsonNode responseJson = mapper.readTree(response.getBody());
+    assertThat(responseJson.get("message").asText())
+        .isEqualTo("It is not yet supported to update the item 'id=1' with {important=true}!");
+  }
+
+  @Test
+  public void whenUpdatingClipping_thenBadRequest() throws Exception {
+    ResponseEntity<String> query =
+        doPost(
+            "/clipping",
+            new JSONObject()
+                .put("clippingDate", "2020-07-12")
+                .put("clippingMatter", "<br/>RECLAMANTE FULANO")
+                .put("viewed", false));
+    assertThat(query.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+    ResponseEntity<String> response =
+        doPatch("/clipping/1", new JSONObject().put("viewed", "true"));
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+    JsonNode responseJson = mapper.readTree(response.getBody());
+    assertThat(responseJson.get("message").asText())
+        .isEqualTo(
+            "Expecting a boolean value for the PATCH request for the item 'id=1' {viewed=true}!");
   }
 }

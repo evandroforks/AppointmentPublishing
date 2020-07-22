@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -40,6 +42,65 @@ public class ClippingController {
   @PostMapping("/clipping")
   @ResponseStatus(HttpStatus.CREATED)
   public void addClipping(@RequestBody Clipping clipping) {
+    clippingRepository.save(clipping);
+  }
+
+  /**
+   * {@code PATCH} end point to update an existing clipping on the database.
+   *
+   * <p>It receives a JSON, respectively with the fields values to be updated.
+   *
+   * <p>As a first implementation, it only supports updating an existent clipping {@code viewed}.
+   * Example of {@code PATCH} request body:
+   *
+   * <pre>{@code
+   * {
+   *     "viewed": true,
+   * }
+   * }</pre>
+   *
+   * @throws ResponseStatusException with HttpStatus.NOT_IMPLEMENTED if not called with the {@code
+   *     viewed} field.
+   * @throws ResponseStatusException with HttpStatus.BAD_REQUEST if the {@code viewed} item is not a
+   *     boolean value.
+   */
+  @PatchMapping("/clipping/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public void updateClipping(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
+    Optional<Clipping> item = clippingRepository.findById(id);
+
+    if (!item.isPresent()) {
+      final String missing = String.format("The item with 'id=%s' is not existent!", id);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
+    }
+    Clipping clipping = item.get();
+
+    // TODO: Use DomainObjectReader to dynamically update any object attribute
+    // https://stackoverflow.com/questions/17860520/spring-mvc-patch-method-partial-updates
+    // fields.forEach(
+    //     (key, value) -> {
+    //       Field field = ReflectionUtils.findField(Clipping.class, key);
+    //       // ReflectionUtils.setField(field, clipping, v);
+    //       PropertyAccessor myAccessor = PropertyAccessorFactory.forBeanPropertyAccess(clipping);
+    //       myAccessor.setPropertyValue(field.getName(), value);
+    //     });
+
+    if (!fields.containsKey("viewed")) {
+      final String missing =
+          String.format(
+              "It is not yet supported to update the item 'id=%s' with %s!", id, fields.toString());
+      throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, missing);
+    }
+    Object viewed = fields.get("viewed");
+
+    if (!(viewed instanceof Boolean)) {
+      final String missing =
+          String.format(
+              "Expecting a boolean value for the PATCH request for the item 'id=%s' %s!",
+              id, fields.toString());
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, missing);
+    }
+    clipping.setViewed((boolean) viewed);
     clippingRepository.save(clipping);
   }
 
