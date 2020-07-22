@@ -156,6 +156,15 @@ public class ClippingController {
   }
 
   /**
+   * In a {@code DELETE} request as {@code /clipping/all}, deletes all clippsing items from the
+   * database.
+   */
+  @DeleteMapping("/clipping/all")
+  public void deleteClipping() {
+    clippingRepository.deleteAll();
+  }
+
+  /**
    * In a {@code DELETE} request as {@code /clipping/1}, delete the clipping item {@code 1} from the
    * database given {@code 1} its its primary key.
    *

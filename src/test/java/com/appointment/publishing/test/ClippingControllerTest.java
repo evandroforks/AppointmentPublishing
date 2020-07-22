@@ -342,6 +342,19 @@ public class ClippingControllerTest {
   }
 
   @Test
+  public void whenDeletingAllClipping_thenOk() throws Exception {
+    createClippingSamplePages();
+
+    this.mockMvc.perform(delete("/clipping/all")).andExpect(status().isOk());
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(0)));
+  }
+
+  @Test
   public void whenCreateClippingByItsId_thenOk() throws Exception {
     String clippingJson =
         new JSONObject()
