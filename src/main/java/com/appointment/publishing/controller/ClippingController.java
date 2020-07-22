@@ -106,7 +106,8 @@ public class ClippingController {
   }
 
   /**
-   * Given the query parameters as {@code /clipping?page=0&size=3} return the requested page items.
+   * In a {@code GET} request, given the query parameters as {@code /clipping?page=0&size=3} return
+   * the requested page items.
    *
    * @see org.springframework.data.domain.PageRequest for the available query parameters.
    * @see <a href="file:../resources/application.properties">application.properties</a> for page
@@ -124,7 +125,7 @@ public class ClippingController {
   }
 
   /**
-   * Return a clipping item from the database given its primary key.
+   * In a {@code GET} request, return a clipping item from the database given its primary key.
    *
    * @throws ResponseStatusException if the item was not found.
    */
