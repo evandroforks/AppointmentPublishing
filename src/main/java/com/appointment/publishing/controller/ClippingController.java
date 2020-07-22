@@ -140,6 +140,22 @@ public class ClippingController {
   }
 
   /**
+   * Given query parameters in a {@code DELETE} request as {@code /clipping?page=0&size=3} delete
+   * all requested page items from the database.
+   *
+   * @see org.springframework.data.domain.PageRequest for the available query parameters.
+   * @see <a href="file:../resources/application.properties">application.properties</a> for page
+   *     size limit configurations.
+   * @see <a href="https://stackoverflow.com/questions/299628/">Is an entity body allowed for an
+   *     HTTP DELETE request?</a>
+   */
+  @DeleteMapping("/clipping")
+  public void deleteClipping(Pageable pageable) {
+    Page<Clipping> all = clippingRepository.findAll(pageable);
+    clippingRepository.deleteAll(all);
+  }
+
+  /**
    * In a {@code DELETE} request as {@code /clipping/1}, delete the clipping item {@code 1} from the
    * database given {@code 1} its its primary key.
    *

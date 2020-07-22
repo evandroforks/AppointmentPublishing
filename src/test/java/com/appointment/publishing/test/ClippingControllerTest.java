@@ -301,6 +301,12 @@ public class ClippingControllerTest {
     this.mockMvc
         .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson16))
         .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(get("/clipping"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(4)));
   }
 
   @Test
@@ -317,6 +323,22 @@ public class ClippingControllerTest {
         .andExpect(jsonPath("$.number", is(2)))
         .andExpect(jsonPath("$.totalPages", is(4)))
         .andExpect(jsonPath("$.totalElements", is(4)));
+  }
+
+  @Test
+  public void whenDeletingClippingWithPagination_thenOk() throws Exception {
+    createClippingSamplePages();
+
+    this.mockMvc.perform(delete("/clipping?page=0&size=4")).andExpect(status().isOk());
+
+    this.mockMvc
+        .perform(get("/clipping?page=0&size=100"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(jsonPath("$.content", hasSize(0)))
+        .andExpect(jsonPath("$.number", is(0)))
+        .andExpect(jsonPath("$.totalPages", is(0)))
+        .andExpect(jsonPath("$.totalElements", is(0)));
   }
 
   @Test
