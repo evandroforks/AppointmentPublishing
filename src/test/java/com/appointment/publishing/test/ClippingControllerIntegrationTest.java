@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@DirtiesContext // https://stackoverflow.com/questions/14343893/how-do-i-reset-my-database-state-after-each-unit-test-without-making-the-whole-t
+// https://stackoverflow.com/questions/14343893/how-do-i-reset-my-database-state-after-each-unit-test-without-making-the-whole-t
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ClippingControllerIntegrationTest {
 
   /** The Server Address + Port to run the integration tests requests. */
@@ -45,11 +47,15 @@ public class ClippingControllerIntegrationTest {
 
   @BeforeAll
   public void setup() {
-    url = "http://127.0.0.1:" + port;
     mapper = new ObjectMapper();
 
     // https://stackoverflow.com/questions/29447382/resttemplate-patch-request
     restTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+  }
+
+  @BeforeEach
+  public void setupEach() {
+    url = "http://127.0.0.1:" + port;
   }
 
   private ResponseEntity<String> doPost(String path, JSONObject body) {
