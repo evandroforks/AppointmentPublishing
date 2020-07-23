@@ -25,7 +25,8 @@ public class CommonUtilities {
    *     tests</a>.
    * @return the id as an Long
    * @param mockMvc an object to extract the id from
-   * @param endPoint
+   * @param endPoint an String with an restful end point with spring pagination support to get the
+   *     results from
    */
   public static Long getId(MockMvc mockMvc, String endPoint) throws Exception {
     ResultActions mvcActions = mockMvc.perform(get(endPoint));
