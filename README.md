@@ -106,6 +106,7 @@ will be used.
    To implement this,
    just continue the implementation on **`src.main.java.com.appointment.publishing.config.JacksonUnknownPropertyConfig`**
    adding the corresponding handler for bad/invalid parsing.
+1. See also the [issue tracker](/../../issues).
 
 
 ## License
