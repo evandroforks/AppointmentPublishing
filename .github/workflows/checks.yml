@@ -7,7 +7,7 @@ on: [push, pull_request]
 jobs:
 
   test:
-    name: Unit Tests
+    name: Tests on ${{ matrix.os }} JDK ${{ matrix.java }}
 
     runs-on: ${{ matrix.os }}
 
