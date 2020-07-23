@@ -10,7 +10,7 @@ Originally based on the tutorial [*How Spring Boot Can Level Up your Spring Appl
 As database,
 it uses a H2 in-memory database configured by **`src.main.java.com.appointment.publishing.config.PersistenceConfig`**.
 The directory structure used follows the usual conventions as noted on
-[What is the recommended project structure for spring boot rest projects?](https://stackoverflow.com/questions/40902280/).
+[*What is the recommended project structure for spring boot rest projects?*](https://stackoverflow.com/questions/40902280/).
 
 
 ### src.main.java.com.appointment.publishing.controller.GlobalExceptionHandler
@@ -41,14 +41,14 @@ CRUD methods by simply declaring methods of the same signature as those declared
 ### src.main.java.com.appointment.publishing.service
 
 Contains the
-[Service Components](https://stackoverflow.com/questions/58234187/what-is-the-use-of-service-layer-in-spring-boot-applications)
+[*Service Components*](https://stackoverflow.com/questions/58234187/what-is-the-use-of-service-layer-in-spring-boot-applications)
 which are used to write business logic in a different layer,
 separated from **`@RestController`** class file.
 For simplicity,
 this repository chooses not to use intermediary Service interfaces.
 See
-[Do I really need to create interfaces in Spring?](https://stackoverflow.com/questions/55087578/) and
-[Spring boot autowiring an interface with multiple implementations](https://stackoverflow.com/questions/51766013/).
+[*Do I really need to create interfaces in Spring?*](https://stackoverflow.com/questions/55087578/) and
+[*Spring boot autowiring an interface with multiple implementations*](https://stackoverflow.com/questions/51766013/).
 
 
 ### src.main.resources.application.properties
@@ -61,7 +61,7 @@ Use it to debug SQL database and access an SQL command line.
 
 Uncomment **`.alwaysDo(MockMvcResultHandlers.print())`** to debug the **`mockMvc`** tests,
 forcing it print most things to the console when running the tests.
-See also [Spring MVC controller Test - print the result JSON String](https://stackoverflow.com/questions/21495296/).
+See also [*Spring MVC controller Test - print the result JSON String*](https://stackoverflow.com/questions/21495296/).
 
 
 ## Usage
@@ -92,7 +92,7 @@ After starting the project, the API will be available on the URL: `http://127.0.
 See [*CONTRIBUTORS*](CONTRIBUTORS).
 
 The project follows the [*Google Java Style Guide*](https://google.github.io/styleguide/javaguide.html).
-You [can configure](https://github.com/google/google-java-format) your favorite editor to use it.
+You [*can configure*](https://github.com/google/google-java-format) your favorite editor to use it.
 
 To simplify the history review of this [*README.md*](README.md) file,
 the technique of [*semantic line break*](http://translate.google.com.br/translate?hl=en&sl=en&u=https://github.com/sembr/specification)
@@ -106,7 +106,7 @@ will be used.
    To implement this,
    just continue the implementation on **`src.main.java.com.appointment.publishing.config.JacksonUnknownPropertyConfig`**
    adding the corresponding handler for bad/invalid parsing.
-1. See also the [issue tracker](/../../issues).
+1. See also the [*issue tracker*](/../../issues).
 
 
 ## License
