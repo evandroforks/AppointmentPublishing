@@ -59,6 +59,10 @@ public class AppointmentControllerTest {
         .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
+    String errorMessage =
+        String.format(
+            "Appointment created from the clipping date + 3 days: '<br/>RECLAMANTE FULANO'");
+
     this.mockMvc
         .perform(get("/appointment"))
         .andExpect(status().isOk())
@@ -66,12 +70,7 @@ public class AppointmentControllerTest {
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].created_at", is(String.valueOf(LocalDate.now()))))
         .andExpect(jsonPath("$.content[0].dueDate", is("2020-06-25")))
-        .andExpect(
-            jsonPath(
-                "$.content[0].description",
-                is(
-                    "Appointment created from the clipping date + 3 days: '0=<br/>RECLAMANTE"
-                        + " FULANO'")));
+        .andExpect(jsonPath("$.content[0].description", is(errorMessage)));
   }
 
   @Test
@@ -88,6 +87,11 @@ public class AppointmentControllerTest {
         .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
+    String errorMessage =
+        String.format(
+            "Appointment created directly from the clipping classified date: '<br/>RECLAMANTE"
+                + " FULANO'");
+
     this.mockMvc
         .perform(get("/appointment"))
         .andExpect(status().isOk())
@@ -95,12 +99,7 @@ public class AppointmentControllerTest {
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].created_at", is(String.valueOf(LocalDate.now()))))
         .andExpect(jsonPath("$.content[0].dueDate", is("2020-01-13")))
-        .andExpect(
-            jsonPath(
-                "$.content[0].description",
-                is(
-                    "Appointment created directly from the clipping classified date:"
-                        + " '0=<br/>RECLAMANTE FULANO'")));
+        .andExpect(jsonPath("$.content[0].description", is(errorMessage)));
   }
 
   @Test

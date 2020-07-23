@@ -59,6 +59,8 @@ public class NotificationControllerTest {
         .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
+    String errorMessage = String.format("Important publication '<br/>RECLAMANTE FULANO'");
+
     this.mockMvc
         .perform(get("/notification"))
         .andExpect(status().isOk())
@@ -66,10 +68,7 @@ public class NotificationControllerTest {
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].created_at", is(String.valueOf(LocalDate.now()))))
         .andExpect(jsonPath("$.content[0].viewed", is(false)))
-        .andExpect(
-            jsonPath(
-                "$.content[0].description",
-                is("Important publication '0=<br/>RECLAMANTE FULANO'")));
+        .andExpect(jsonPath("$.content[0].description", is(errorMessage)));
   }
 
   @Test

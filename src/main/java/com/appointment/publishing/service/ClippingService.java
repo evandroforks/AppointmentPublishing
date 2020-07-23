@@ -45,8 +45,7 @@ public class ClippingService {
       Notification notification = new Notification();
       notification.setCreated_at(LocalDate.now());
       notification.setDescription(
-          String.format(
-              "Important publication '%s=%s'", clipping.getId(), clipping.getClippingMatter()));
+          String.format("Important publication '%s'", clipping.getClippingMatter()));
       notificationRepository.save(notification);
     }
     if (clipping.getClassificationType() == ClassificationType.HEARING) {
@@ -60,14 +59,14 @@ public class ClippingService {
         appointment.setDueDate(localDate);
         appointment.setDescription(
             String.format(
-                "Appointment created from the clipping date + 3 days: '%s=%s'",
-                clipping.getId(), clipping.getClippingMatter()));
+                "Appointment created from the clipping date + 3 days: '%s'",
+                clipping.getClippingMatter()));
       } else {
         appointment.setDueDate(classifiedDate);
         appointment.setDescription(
             String.format(
-                "Appointment created directly from the clipping classified date: '%s=%s'",
-                clipping.getId(), clipping.getClippingMatter()));
+                "Appointment created directly from the clipping classified date: '%s'",
+                clipping.getClippingMatter()));
       }
       appointment.setCreated_at(LocalDate.now());
       appointmentRepository.save(appointment);
