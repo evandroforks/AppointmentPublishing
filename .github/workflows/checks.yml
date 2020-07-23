@@ -16,13 +16,23 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         java: [1.8, 1.11]
 
+      # Keep all systems running if something fails
+      fail-fast: false
+
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
+
+      # Automatically format and commit code with Google style guide
+      # https://github.com/axel-op/googlejavaformat-action/issues/4
+      - uses: axel-op/googlejavaformat-action@v3
+        if: matrix.java == '1.11' && matrix.os == 'ubuntu-latest'
+        with:
+          args: "--skip-sorting-imports --replace"
 
       - name: Maven Package
         run: mvn -B clean package -DskipTests

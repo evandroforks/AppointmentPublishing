@@ -70,7 +70,8 @@ public class AppointmentControllerTest {
             jsonPath(
                 "$.content[0].description",
                 is(
-                    "Appointment created from the clipping date + 3 days: '0=<br/>RECLAMANTE FULANO'")));
+                    "Appointment created from the clipping date + 3 days: '0=<br/>RECLAMANTE"
+                        + " FULANO'")));
   }
 
   @Test
@@ -98,7 +99,8 @@ public class AppointmentControllerTest {
             jsonPath(
                 "$.content[0].description",
                 is(
-                    "Appointment created directly from the clipping classified date: '0=<br/>RECLAMANTE FULANO'")));
+                    "Appointment created directly from the clipping classified date:"
+                        + " '0=<br/>RECLAMANTE FULANO'")));
   }
 
   @Test
