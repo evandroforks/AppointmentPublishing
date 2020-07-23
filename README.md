@@ -84,6 +84,8 @@ After starting the project, the API will be available on the URL: `http://127.0.
 
 1. **`/notification`** is a *GET* endpoint. See **`com.appointment.publishing.controller.NotificationController`** and **`com.appointment.publishing.model.Notification`** for the parameter details.
 
+1. **`/appointment`** is a *GET* endpoint. See **`com.appointment.publishing.controller.AppointmentController`** and **`com.appointment.publishing.model.Appointment`** for the parameter details.
+
 
 ## Contributing
 

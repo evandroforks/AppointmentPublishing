@@ -9,12 +9,6 @@ import javax.persistence.Lob;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/** Values used for the Clipping Rest API requests. */
-enum ClassificationType {
-  HEARING,
-  DEADLINE
-}
-
 @Entity
 public class Clipping {
 

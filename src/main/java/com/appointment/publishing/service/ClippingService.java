@@ -1,7 +1,10 @@
 package com.appointment.publishing.service;
 
+import com.appointment.publishing.model.Appointment;
+import com.appointment.publishing.model.ClassificationType;
 import com.appointment.publishing.model.Clipping;
 import com.appointment.publishing.model.Notification;
+import com.appointment.publishing.repository.AppointmentRepository;
 import com.appointment.publishing.repository.ClippingRepository;
 import com.appointment.publishing.repository.NotificationRepository;
 import org.springframework.data.domain.Page;
@@ -25,10 +28,16 @@ public class ClippingService {
 
   private NotificationRepository notificationRepository;
 
+  private AppointmentRepository appointmentRepository;
+
   public ClippingService(
-      ClippingRepository clippingRepository, NotificationRepository notificationRepository) {
+      ClippingRepository clippingRepository,
+      NotificationRepository notificationRepository,
+      AppointmentRepository appointmentRepository) {
+
     this.clippingRepository = clippingRepository;
     this.notificationRepository = notificationRepository;
+    this.appointmentRepository = appointmentRepository;
   }
 
   public Clipping save(Clipping clipping) {
@@ -39,6 +48,29 @@ public class ClippingService {
           String.format(
               "Important publication '%s=%s'", clipping.getId(), clipping.getClippingMatter()));
       notificationRepository.save(notification);
+    }
+    if (clipping.getClassificationType() == ClassificationType.HEARING) {
+      Appointment appointment = new Appointment();
+      LocalDate classifiedDate = clipping.getClassifiedDate();
+
+      if (classifiedDate == null) {
+        LocalDate clippingDate = clipping.getClippingDate();
+        LocalDate localDate = clippingDate.plusDays(3);
+
+        appointment.setDueDate(localDate);
+        appointment.setDescription(
+            String.format(
+                "Appointment created from the clipping date + 3 days: '%s=%s'",
+                clipping.getId(), clipping.getClippingMatter()));
+      } else {
+        appointment.setDueDate(classifiedDate);
+        appointment.setDescription(
+            String.format(
+                "Appointment created directly from the clipping classified date: '%s=%s'",
+                clipping.getId(), clipping.getClippingMatter()));
+      }
+      appointment.setCreated_at(LocalDate.now());
+      appointmentRepository.save(appointment);
     }
     return clippingRepository.save(clipping);
   }
@@ -65,5 +97,9 @@ public class ClippingService {
 
   public Page<Notification> findAllNotifications(Pageable pageable) {
     return notificationRepository.findAll(pageable);
+  }
+
+  public Page<Appointment> findAllAppointments(Pageable pageable) {
+    return appointmentRepository.findAll(pageable);
   }
 }
