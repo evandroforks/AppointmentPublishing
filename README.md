@@ -82,6 +82,8 @@ After starting the project, the API will be available on the URL: `http://127.0.
 
 1. **`clipping`** is a *POST* and *GET* endpoint. See **`com.appointment.publishing.controller.ClippingController`** and **`com.appointment.publishing.model.Clipping`** for the parameter details.
 
+1. **`/notification`** is a *GET* endpoint. See **`com.appointment.publishing.controller.NotificationController`** and **`com.appointment.publishing.model.Notification`** for the parameter details.
+
 
 ## Contributing
 

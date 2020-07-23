@@ -121,7 +121,7 @@ public class ClippingController {
    */
   @GetMapping("/clipping")
   public Page<Clipping> getClipping(Pageable pageable) {
-    return clippingService.findAll(pageable);
+    return clippingService.findAllClippings(pageable);
   }
 
   /**
@@ -151,7 +151,7 @@ public class ClippingController {
    */
   @DeleteMapping("/clipping")
   public void deleteClipping(Pageable pageable) {
-    Page<Clipping> all = clippingService.findAll(pageable);
+    Page<Clipping> all = clippingService.findAllClippings(pageable);
     clippingService.deleteAll(all);
   }
 
