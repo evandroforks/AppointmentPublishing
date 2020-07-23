@@ -11,6 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -38,8 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @Transactional // https://stackoverflow.com/questions/51036215/spring-h2-test-db-does-not-reset-before-each-test
 public class ClippingControllerTest {
-
-  private static final String CONTENT_TYPE = "application/json";
 
   /** Convert String objects to JSON. */
   ObjectMapper mapper;
@@ -93,13 +92,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
@@ -112,9 +111,9 @@ public class ClippingControllerTest {
         new JSONObject().put("clippingMatter", "<br/>RECLAMANTE FULANO").toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isBadRequest())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.message", is("Missing required property 'clippingDate'")));
   }
 
@@ -129,7 +128,8 @@ public class ClippingControllerTest {
 
     ResultActions result =
         this.mockMvc
-            .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+            .perform(
+                post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
             .andExpect(status().isBadRequest());
 
     /**
@@ -156,13 +156,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
@@ -179,13 +179,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
@@ -202,13 +202,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
@@ -225,13 +225,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
@@ -248,13 +248,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE FULANO")))
@@ -287,25 +287,25 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson13))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson13))
         .andExpect(status().isCreated());
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson14))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson14))
         .andExpect(status().isCreated());
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson15))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson15))
         .andExpect(status().isCreated());
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson16))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson16))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(4)));
   }
 
@@ -316,7 +316,7 @@ public class ClippingControllerTest {
     this.mockMvc
         .perform(get("/clipping?page=2&size=1"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-15")))
         .andExpect(jsonPath("$.content[0].clippingMatter", is("<br/>RECLAMANTE Dia 15")))
@@ -334,7 +334,7 @@ public class ClippingControllerTest {
     this.mockMvc
         .perform(get("/clipping?page=0&size=100"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(0)))
         .andExpect(jsonPath("$.number", is(0)))
         .andExpect(jsonPath("$.totalPages", is(0)))
@@ -350,7 +350,7 @@ public class ClippingControllerTest {
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(0)));
   }
 
@@ -363,13 +363,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping/" + getId()))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.clippingMatter", is("<br/>RECLAMANTE FULANO")));
   }
@@ -386,17 +386,20 @@ public class ClippingControllerTest {
     String updateJson = new JSONObject().put("viewed", true).toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
-        .perform(patch("/clipping/" + getId()).contentType(CONTENT_TYPE).content(updateJson))
+        .perform(
+            patch("/clipping/" + getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson))
         .andExpect(status().isOk());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].clippingDate", is("2020-06-22")))
         .andExpect(jsonPath("$.content[0].viewed", is(true)));
@@ -414,7 +417,7 @@ public class ClippingControllerTest {
     String updateJson = new JSONObject().put("important", true).toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     Long id = getId();
@@ -423,14 +426,15 @@ public class ClippingControllerTest {
             "It is not yet supported to update the item 'id=%s' with {important=true}!", id);
 
     this.mockMvc
-        .perform(patch("/clipping/" + id).contentType(CONTENT_TYPE).content(updateJson))
+        .perform(
+            patch("/clipping/" + id).contentType(MediaType.APPLICATION_JSON).content(updateJson))
         .andExpect(status().isNotImplemented())
         .andExpect(status().reason(containsString(errorMessage)));
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)));
   }
 
@@ -446,7 +450,7 @@ public class ClippingControllerTest {
     String updateJson = new JSONObject().put("viewed", "true").toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     Long id = getId();
@@ -456,14 +460,15 @@ public class ClippingControllerTest {
             id);
 
     this.mockMvc
-        .perform(patch("/clipping/" + id).contentType(CONTENT_TYPE).content(updateJson))
+        .perform(
+            patch("/clipping/" + id).contentType(MediaType.APPLICATION_JSON).content(updateJson))
         .andExpect(status().isBadRequest())
         .andExpect(status().reason(containsString(errorMessage)));
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)));
   }
 
@@ -476,13 +481,13 @@ public class ClippingControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)));
 
     Long id = getId();
@@ -498,7 +503,7 @@ public class ClippingControllerTest {
     this.mockMvc
         .perform(get("/clipping"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(0)));
   }
 }

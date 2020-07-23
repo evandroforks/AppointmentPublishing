@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,8 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional // https://stackoverflow.com/questions/51036215/spring-h2-test-db-does-not-reset-before-each-test
 public class NotificationControllerTest {
 
-  private static final String CONTENT_TYPE = "application/json";
-
   private MockMvc mockMvc;
 
   @Autowired private WebApplicationContext webApplicationContext;
@@ -57,13 +56,13 @@ public class NotificationControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/notification"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(1)))
         .andExpect(jsonPath("$.content[0].created_at", is(String.valueOf(LocalDate.now()))))
         .andExpect(jsonPath("$.content[0].viewed", is(false)))
@@ -83,13 +82,13 @@ public class NotificationControllerTest {
             .toString();
 
     this.mockMvc
-        .perform(post("/clipping").contentType(CONTENT_TYPE).content(clippingJson))
+        .perform(post("/clipping").contentType(MediaType.APPLICATION_JSON).content(clippingJson))
         .andExpect(status().isCreated());
 
     this.mockMvc
         .perform(get("/notification"))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(CONTENT_TYPE))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.content", hasSize(0)));
   }
 }
