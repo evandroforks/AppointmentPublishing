@@ -28,6 +28,14 @@ public class Notification {
   /** The notification viewed flag as a SQL Boolean type (optional). */
   private boolean viewed;
 
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
   public String getDescription() {
     return description;
   }

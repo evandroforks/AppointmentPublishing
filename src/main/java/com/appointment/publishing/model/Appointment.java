@@ -29,6 +29,14 @@ public class Appointment {
   @Column(nullable = false)
   private LocalDate created_at;
 
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
   public String getDescription() {
     return description;
   }
