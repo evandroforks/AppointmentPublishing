@@ -32,7 +32,7 @@ They are automatically loaded.
 
 ### src.main.java.com.appointment.publishing.repository
 
-Central repository marker interfaces.
+Central repository interfaces' maker.
 Captures the domain type to manage as well as the domain type's id.
 Domain repositories extending this interface can selectively expose
 CRUD methods by simply declaring methods of the same signature as those declared in CrudRepository.
