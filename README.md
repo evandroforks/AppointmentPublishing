@@ -95,7 +95,7 @@ The project follows the [*Google Java Style Guide*](https://google.github.io/sty
 You [*can configure*](https://github.com/google/google-java-format) your favorite editor to use it.
 
 To simplify the history review of this [*README.md*](README.md) file,
-the technique of [*semantic line break*](http://translate.google.com.br/translate?hl=en&sl=en&u=https://github.com/sembr/specification)
+the technique of [*semantic line break*](https://github.com/sembr/specification)
 will be used.
 
 
