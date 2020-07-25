@@ -89,7 +89,9 @@ After starting the project, the API will be available on the URL: `http://127.0.
 
 ## Contributing
 
-See [*CONTRIBUTORS*](CONTRIBUTORS).
+First see [*CONTRIBUTORS*](CONTRIBUTORS).
+You can create new [*issues*](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue)
+or [*pull requests*](https://docs.github.com/en/github/managing-files-in-a-repository/editing-files-in-another-users-repository).
 
 The project follows the [*Google Java Style Guide*](https://google.github.io/styleguide/javaguide.html).
 You [*can configure*](https://github.com/google/google-java-format) your favorite editor to use it.
